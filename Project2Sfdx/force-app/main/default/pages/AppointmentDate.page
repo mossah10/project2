@@ -7,9 +7,9 @@
             <apex:pageBlockSection>
                 <apex:outputLabel value="Select your appointment date" for="date" />
                 <apex:inputField id="date" value="{!Appointment__c.AppointmentDate__c}" />
-                <!-- <apex:selectList value="{!Appointment__c.Doctor__c}" multiselect="false">
-                    <apex:selectOptions value="{!Doctor__c}" /> -->
-                <!-- </apex:selectList> -->
+                <apex:selectList value="{!Appointment__c.Doctor__c}" multiselect="false">
+                    <apex:selectOptions value="{!Doc}" />
+                </apex:selectList>
             </apex:pageBlockSection>
 
             <br/>
