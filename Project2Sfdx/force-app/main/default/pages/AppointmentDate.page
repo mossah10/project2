@@ -1,4 +1,7 @@
-<apex:page standardController="Appointment__c">
+<!--
+ - Created by moomookingmoose on 10/27/19.
+ -->
+<apex:page standardController="Appointment__c" extensions="GetDoctorsController">
     <apex:form>
         <apex:pageBlock>
             <apex:pageBlockSection>
