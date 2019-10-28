@@ -1,12 +1,12 @@
-<apex:page docType="html-5.0" standardController="Appointment__c">
+<apex:page standardController="Appointment__c">
     <apex:form>
         <apex:pageBlock>
             <apex:pageBlockSection>
                 <apex:outputLabel value="Select your appointment date" for="date" />
-                <apex:inputField id="date" value="{!Appointment__c.AppointmentDate__c}" type="datetime-local" />
-                <apex:selectList value="{!Appointment__c.Doctor__c}" multiselect="false" size="1">
-                    <apex:selectOptions value="{!users}" />
-                </apex:selectList>
+                <apex:inputField id="date" value="{!Appointment__c.AppointmentDate__c}" />
+                <!-- <apex:selectList value="{!Appointment__c.Doctor__c}" multiselect="false">
+                    <apex:selectOptions value="{!Doctor__c}" /> -->
+                <!-- </apex:selectList> -->
             </apex:pageBlockSection>
 
             <br/>
