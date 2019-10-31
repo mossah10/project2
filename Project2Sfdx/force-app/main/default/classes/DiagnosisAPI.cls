@@ -3,27 +3,57 @@
  */
 
 public class DiagnosisAPI {
+
     public DiagnosisModel diagnosisMod {get; set;}
+    public List<EvidenceModel> evidenceModel {get; set;}
     public List<DiagnosisModel> diagnosisModels {get; set;}
 
-    /**
-    * Deserializes JSON results into a list.
-    * @param  json the response.getbody parameter
-    * @return the JSON results as a list
+    /*
+    * The constructor gets all of the results from the Search Results list
+    * and populates the diagnosis model with those results, which we need for
+    * converting all of the data into a JSON file that the API calls for.
     */
-    private List<DiagnosisModel> parse(String json) {
-        return (List<DiagnosisModel>) System.JSON.deserialize(json, List<DiagnosisModel>.class);
+    public DiagnosisAPI() {
+        SearchResults results = new SearchResults();
+        for(SearchModel model : results.wrapClassList) {
+            EvidenceModel evidence = new EvidenceModel();
+            evidence.choice_id = model.Id;
+            evidenceModel.add(evidence);
+        }
+    }
+
+    /**
+    * Serializes string data from a List into JSON format
+    * @param  List<DiagnosisModel> takes the diagnosis list to create JSON out of
+    * @return the data is returned as JSON format.
+    */
+    private String parseToJsonString(List<DiagnosisModel> diagnosisData) {
+        JSONGenerator generator = JSON.createGenerator(false);
+        for(DiagnosisModel diag : diagnosisData) {
+            diag = new DiagnosisModel();
+            generator.writeStartObject();
+            generator.writeStringField('sex', diag.Sex);
+            generator.writeNumberField('age', diag.Age);
+            generator.writeFieldName('Evidence');
+            generator.writeStartArray();
+            for(EvidenceModel evidence : diag.evidence) {
+                generator.writeStringField('id', evidence.id);
+                generator.writeStringField('choice_id', evidence.choice_id);
+            }
+            generator.writeEndArray();
+            generator.writeEndObject();
+        }
+        return generator.getAsString();
     }
 
     /**
     * Initiates the HTTP Request and requests for the response
-    * @param  Phrase a string value for the phrase needed to get results from the API
     * @return the response from the HTTP request.
     */
     private HttpResponse setupHttpCallout(){
-        HttpResponse response = new HttpResponse();
         String AppId = 'c1e5a7d6';
         String AppKey = 'f9cd32e19f27f7c72e91369d0b2d947c';
+        HttpResponse response = new HttpResponse();
         HttpRequest req = new HttpRequest();
         Http http = new Http();
 
@@ -34,31 +64,7 @@ public class DiagnosisAPI {
         req.setHeader('App-Id', AppId);
         req.setHeader('App-Key', AppKey);
         req.setEndpoint(auth_url);
+        req.setBody(parseToJsonString(diagnosisModels));
         return response = http.send(req);
-    }
-
-    /**
-    * Gets the response data and returns it as a list
-    * @param  sex The sex of the patient. Male, Female or both
-    * @param  age The age of the patient. Cannot be negative value or 0.
-    * @param  evidence List of evidences that will narrow down the diagnosis results.
-    * @return the JSON results as a list that can be displayed on a page.
-    */
-    public List<DiagnosisModel> getHttpResponseData(String sex, Integer age, List<EvidenceModel> evidence) {
-        HttpResponse response = setupHttpCallout();
-        diagnosisModels = new List<DiagnosisModel>();
-
-        if (response.getStatusCode() == 200) {
-            for (DiagnosisModel diag : parse(response.getBody())) {
-                diag = new DiagnosisModel();
-                diag.Sex = sex;
-                if (diag.Age > 0) {
-                    diag.Age = age;
-                }
-                diag.evidence = evidence;
-                diagnosisModels.add(diag);
-            }
-        }
-        return diagnosisModels;
     }
 }
