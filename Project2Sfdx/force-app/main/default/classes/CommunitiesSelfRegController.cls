@@ -5,7 +5,7 @@ public class CommunitiesSelfRegController {
 
     public String firstName {get; set;}
     public String lastName {get; set;}
-    public String age {get; set;}
+    public Decimal age {get; set;}
     public String gender {get; set;}
     public String email {get; set;}
     public String password {get; set {password = value == null ? value : value.trim(); } }
@@ -21,6 +21,10 @@ public class CommunitiesSelfRegController {
     
     private boolean isValidPassword() {
         return password == confirmPassword;
+    }
+
+    private boolean isValidGender() {
+        return gender == 'Male' || gender == 'Female' ;
     }
 
     public PageReference registerUser() {
