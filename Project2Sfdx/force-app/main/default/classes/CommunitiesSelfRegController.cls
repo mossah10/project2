@@ -5,8 +5,8 @@ public class CommunitiesSelfRegController {
 
     public String firstName {get; set;}
     public String lastName {get; set;}
-    public Decimal age {get; set;}
-    public String gender {get; set;}
+    // public Decimal age {get; set;}
+    // public String gender {get; set;}
     public String email {get; set;}
     public String password {get; set {password = value == null ? value : value.trim(); } }
     public String confirmPassword {get; set { confirmPassword = value == null ? value : value.trim(); } }
@@ -23,9 +23,9 @@ public class CommunitiesSelfRegController {
         return password == confirmPassword;
     }
 
-    private boolean isValidGender() {
-        return gender == 'Male' || gender == 'Female' ;
-    }
+    // private boolean isValidGender() {
+    //     return gender == 'Male' || gender == 'Female' ;
+    // }
 
     public PageReference registerUser() {
     
@@ -45,8 +45,8 @@ public class CommunitiesSelfRegController {
         User u = new User();
         u.Username = userName;
         u.Email = email;
-        u.Age__c = age;
-        u.Gender__c = gender;
+        // u.Age__c = age;
+        // u.Gender__c = gender;
         u.FirstName = firstName;
         u.LastName = lastName;
         u.CommunityNickname = communityNickname;
