@@ -6,21 +6,31 @@
     <apex:form id="frm">
         <apex:pageBlock title="Welcome to E-Doc">
             <table>
-                <apex:pageBlock title="Please write your symptom:">
-                    <apex:inputText value="{!Phrase}"/>
-                    <apex:commandButton value="Find Symptoms" action="{!onSend}"/>
+                <apex:pageBlock title="Please write your symptom and input your age/gender:">
+                    <apex:outputLabel value="Select your age " for="age" />
+                    <apex:inputText id="age" />
+                    <br />
+                    <br />
+                    <apex:outputLabel value="Select your gender " for="gender" />
+                    <apex:inputText id="gender" />
+                    <br />
+                    <br />
+                    <apex:inputText value="{!Phrase}" />
+                    <apex:commandButton value="Find Symptoms" action="{!onSend}" />
                 </apex:pageBlock>
             </table>
         </apex:pageBlock>
         <apex:pageBlock rendered="{!active}" title="Select your symptoms">
             <apex:repeat value="{!wrapClassList}" var="dataTable" id="JSONData">
                 <tr>
-                    <td> <apex:outputText value="{!dataTable.Label}"/> </td>
-                    <td> <apex:inputCheckbox value="{!dataTable.flag}"/> </td>
+                    <td>
+                        <apex:outputText value="{!dataTable.Label}" /> </td>
+                    <td>
+                        <apex:inputCheckbox value="{!dataTable.flag}" /> </td>
                     <br></br>
                 </tr>
             </apex:repeat>
-            <apex:commandButton action="{!saveSelected}" value="Save Results"/>
+            <apex:commandButton action="{!saveSelected}" value="Save Results" />
         </apex:pageBlock>
     </apex:form>
 </apex:page>
