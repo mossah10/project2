@@ -1,0 +1,23 @@
+<!--
+ - Created on 10/27/19.
+ -->
+<apex:page standardController="Appointment__c" extensions="GetDoctorsController">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection >
+                <apex:outputLabel value="Select your appointment date" for="date" />
+                <apex:inputField id="date" value="{!Appointment__c.AppointmentDate__c}" />
+                <apex:selectList value="{!Appointment__c.Doctor__c}" multiselect="false">
+                    <apex:selectOptions value="{!Doc}" />
+                </apex:selectList>
+            </apex:pageBlockSection>
+
+            <br/>
+
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton action="{!save}" value="Save" />
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+    <!-- date doctor symptom -->
+</apex:page>

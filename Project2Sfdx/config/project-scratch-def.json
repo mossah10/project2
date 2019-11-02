@@ -1,5 +1,10 @@
 {
-  "orgName": "Demo Company",
+  "orgName": "gamedevmadeeasy Company",
   "edition": "Developer",
-  "features": []
+  "features": [],
+  "settings": {
+    "orgPreferenceSettings": {
+      "s1DesktopEnabled": true
+    }
+  }
 }
