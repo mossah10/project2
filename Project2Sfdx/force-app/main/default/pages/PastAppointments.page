@@ -1,0 +1,9 @@
+<apex:page standardController="Appointment__c">
+    <apex:pageBlock title="Appointments">
+        <apex:pageBlockSection >
+        <apex:outputField value="{!Appointment__c.Name}"/>
+        <apex:outputField value="{!Appointment__c.AppointmentDate__c}"/>
+        <apex:outputField value="{!Appointment__c.Doctor__c}"/>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>
