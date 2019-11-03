@@ -17,11 +17,14 @@ public with sharing class GetDoctorsController {
     }
 
 
-    public List<SelectOption> getDoc() {
-    List<SelectOption> myDoctor = new List<SelectOption>();
-    for(Doctor__c doc : [select Name from Doctor__c]) {
-        myDoctor.add(new SelectOption(doc.Id, doc.Name));
-    }
-    return myDoctor;      
+    public List<SelectOption> getDoc {
+    get{
+        List<SelectOption> myDoctor = new List<SelectOption>();
+        for(Doctor__c doc : [select Name from Doctor__c]) {
+            myDoctor.add(new SelectOption(doc.Id, doc.Name));
+        }
+        return myDoctor;      
+        }
+    set;
     }
 }
