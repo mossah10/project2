@@ -1,6 +1,32 @@
-<apex:page>
-<!-- Begin Default Content REMOVE THIS -->
-<h1>Congratulations</h1>
-This is your new Page
-<!-- End Default Content REMOVE THIS -->
+<apex:page controller="GetSymptomsController">
+    <apex:form>
+        <apex:pageBlock title="Welcome to Health Indetica">
+            <apex:pageBlockSection title="Please input your age and gender:" >
+                <apex:outputLabel value="Enter your age" for="age" />
+                <apex:inputText value="{!age}" id="age" />
+                <apex:outputLabel value="Enter your gender" for="gender" />
+                <apex:inputText value="{!gender}" id="gender" />
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Please select your symptoms" >
+                <!-- <apex:inputField id="symptoms" value="{!Appointment__c.Symptom__c}" /> -->
+                <apex:selectCheckboxes value="{!selectedSymptoms}" layout="pageDirection">
+                    <apex:selectOptions value="{!symptoms}" />
+                </apex:selectCheckboxes><br/>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <!-- <apex:commandButton action="{!save}" value="Save" /> -->
+                <apex:commandButton value="Test" action="{!test}" rerender="out" status="status"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+    <!-- <apex:outputPanel id="out">
+        <apex:actionstatus id="status" startText="testing...">
+            <apex:facet name="stop">
+                <apex:outputPanel>
+                    <p>You have selected:</p>
+                    <apex:dataList value="{!selectedSymptoms}" var="c">{!c}</apex:dataList>
+                </apex:outputPanel>
+            </apex:facet>
+        </apex:actionstatus>
+    </apex:outputPanel> -->
 </apex:page>
