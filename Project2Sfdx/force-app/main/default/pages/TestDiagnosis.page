@@ -1,0 +1,21 @@
+<!--
+ - Created by gamedevmadeeasy on 10/31/19.
+ -->
+
+<apex:page id="TestDiagnosis" controller="DiagnosisAPI">
+    <apex:form id="frm">
+        <apex:pageBlock title="Welcome to E-Doc">
+            <table>
+                <apex:pageBlock title="Please write your symptom:">
+                    <apex:commandButton value="Find Symptoms" action="{!onReceive}"/>
+                </apex:pageBlock>
+            </table>
+            <apex:repeat value="{!diagnosisMod}" var="dataTable" id="JSONData">
+                <tr>
+                    <td> <apex:outputText value="{!dataTable}"/> </td>>
+                    <br></br>
+                </tr>
+            </apex:repeat>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

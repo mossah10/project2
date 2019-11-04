@@ -1,0 +1,23 @@
+
+<apex:page controller="GetSymptomsController">
+    <apex:form>
+        <apex:pageBlock title="Welcome to Health Indetica">
+            <apex:pageBlockSection title="Please input your age and gender:" >
+                <apex:outputLabel value="Enter your age" for="age" />
+                <apex:inputText value="{!age}" id="age" />
+                <apex:outputLabel value="Enter your gender" for="gender" />
+                <apex:inputText value="{!gender}" id="gender" />
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Please select your symptoms" >
+                <!-- <apex:inputField id="symptoms" value="{!Appointment__c.Symptom__c}" /> -->
+                <apex:selectCheckboxes value="{!selectedSymptoms}" layout="pageDirection">
+                    <apex:selectOptions value="{!symptoms}" />
+                </apex:selectCheckboxes><br/>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <!-- <apex:commandButton action="{!save}" value="Save" /> -->
+                <apex:commandButton value="Book Appointment" action="{!getListOfConditions}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

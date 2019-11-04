@@ -3,68 +3,66 @@
  */
 
 public class DiagnosisAPI {
-
-    public DiagnosisModel diagnosisMod {get; set;}
-    public List<EvidenceModel> evidenceModel {get; set;}
-    public List<DiagnosisModel> diagnosisModels {get; set;}
-
-    /*
-    * The constructor gets all of the results from the Search Results list
-    * and populates the diagnosis model with those results, which we need for
-    * converting all of the data into a JSON file that the API calls for.
-    */
-    public DiagnosisAPI() {
-        SearchResults results = new SearchResults();
-        for(SearchModel model : results.wrapClassList) {
-            EvidenceModel evidence = new EvidenceModel();
-            evidence.choice_id = model.Id;
-            evidenceModel.add(evidence);
+    public static List<ConditionObject> getConditions(Integer age, String sex, List<String> symptoms) {
+        
+        List<ConditionObject> possibleConditions = new List<ConditionObject>();
+        
+        // API requires that sex must be 'male' or 'female'
+        String querySex = (sex == 'other') ? 'female' : sex;        
+        // API requires that age must be a positive integer between 0 and 130
+        Integer queryAge = (0 < age && age < 130) ? age : 20;
+        
+        // Set the endpoint
+        String authURL = ('https://api.infermedica.com/v2/diagnosis');
+        // Set HTTP Request Type
+        String requestMethod = ('POST');
+        
+        // Set the body
+        Map<String, Object> body = new Map<String, Object>();
+        List<Map<String, Object>> evidence = new List<Map<String, Object>>();
+        
+        for (String symptomId : symptoms) {
+            Map<String, Object> symptomObj  = new Map<String, Object>();
+            symptomObj.put('choice_id', 'present');
+            symptomObj.put('id', symptomId);
+            evidence.add(symptomObj);
         }
-    }
+        
+        body.put('evidence', evidence);
+        body.put('age', queryAge);
+        body.put('sex', querySex);
+        
+        System.debug('body: ' + body);
+		String bodyJSON = JSON.serialize(body);
+        System.debug('bodyJSON: ' + bodyJSON);
+        
+        HttpResponse response = APICallout.setupHttpCalloutWithResponse(authURL, requestMethod, bodyJSON);
+        System.debug('response: ' + response);
+        
+        if (response.getStatusCode() == 200) {
+            System.debug('responseBody: ' + response.getBody());
+            
+            Map<String, Object> results = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
+        	System.debug('results: ' + results);
+            List<Object> conditions = (List<Object>)results.get('conditions');
+            System.debug('conditions: ' + conditions);
+            
+            for (Object cond : conditions) {
+                // Map<String, Object> conditionInfo = new Map<String,Object>();
+                Map<String, Object> condMap = (Map<String, Object>)cond;
+                // conditionInfo.put('Name', (String)condMap.get('name'));
+                // conditionInfo.put('Probability', (Double)condMap.get('probability'));
 
-    /**
-    * Serializes string data from a List into JSON format
-    * @param  List<DiagnosisModel> takes the diagnosis list to create JSON out of
-    * @return the data is returned as JSON format.
-    */
-    private String parseToJsonString(List<DiagnosisModel> diagnosisData) {
-        JSONGenerator generator = JSON.createGenerator(false);
-        for(DiagnosisModel diag : diagnosisData) {
-            diag = new DiagnosisModel();
-            generator.writeStartObject();
-            generator.writeStringField('sex', diag.Sex);
-            generator.writeNumberField('age', diag.Age);
-            generator.writeFieldName('Evidence');
-            generator.writeStartArray();
-            for(EvidenceModel evidence : diag.evidence) {
-                generator.writeStringField('id', evidence.id);
-                generator.writeStringField('choice_id', evidence.choice_id);
+                ConditionObject condition = new ConditionObject();
+                condition.setName((String)condMap.get('name'));
+                condition.setProbability((Double)condMap.get('probability'));
+            
+				// System.debug('conditionInfo: ' + conditionInfo);
+                possibleConditions.add(condition);
             }
-            generator.writeEndArray();
-            generator.writeEndObject();
         }
-        return generator.getAsString();
-    }
-
-    /**
-    * Initiates the HTTP Request and requests for the response
-    * @return the response from the HTTP request.
-    */
-    private HttpResponse setupHttpCallout(){
-        String AppId = 'c1e5a7d6';
-        String AppKey = 'f9cd32e19f27f7c72e91369d0b2d947c';
-        HttpResponse response = new HttpResponse();
-        HttpRequest req = new HttpRequest();
-        Http http = new Http();
-
-        String auth_url = 'https://api.infermedica.com/v2/diagnose';
-        req.setMethod('POST');
-
-        req.setHeader('Accept', 'application/json');
-        req.setHeader('App-Id', AppId);
-        req.setHeader('App-Key', AppKey);
-        req.setEndpoint(auth_url);
-        req.setBody(parseToJsonString(diagnosisModels));
-        return response = http.send(req);
+        
+        System.debug('possibleConditions: ' + possibleConditions);
+        return possibleConditions;
     }
 }
