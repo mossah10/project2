@@ -8,7 +8,7 @@
                 <apex:inputField id="date" value="{!newAppointment.AppointmentDate__c}" />
             </apex:pageBlockSection>
             <apex:pageBlockSection>
-                <apex:selectList value="{!doctor}" multiselect="false">
+                <apex:selectList value="{!newAppointment.Doctor__c}" multiselect="false">
                     <apex:selectOptions value="{!doc}" />
                 </apex:selectList>
             </apex:pageBlockSection>

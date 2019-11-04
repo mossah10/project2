@@ -9,7 +9,7 @@ public with sharing class GetSymptomsController {
     public String gender {get; set;}
     //public Datetime appointmentDate {get; set;}
     public Appointment__c newAppointment {get; set;}
-    public Doctor__c doctor {get; set;}
+    //public Doctor__c doctor {get; set;}
     public List<ConditionObject> possibleConditions {get; set;}
 
     public GetSymptomsController() {
@@ -58,14 +58,14 @@ public with sharing class GetSymptomsController {
     }
 
     public PageReference bookAppointment() {
-        String patientsPossibleConditions;
+        String patientsPossibleConditions = '';
 
         for (ConditionObject con : possibleConditions) {
-            patientsPossibleConditions += con.getName() + ' ';
+            patientsPossibleConditions += con.getName() + '\n';
         }
 
         // newAppointment.AppointmentDate__c = appointmentDate;
-        newAppointment.Doctor__c = doctor.Id;
+        //newAppointment.Doctor__c = doctor.Id;
         newAppointment.Conditions__c = patientsPossibleConditions;
     
         insert newAppointment;
