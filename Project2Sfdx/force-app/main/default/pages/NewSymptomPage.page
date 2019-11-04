@@ -16,27 +16,8 @@
             </apex:pageBlockSection>
             <apex:pageBlockButtons location="bottom">
                 <!-- <apex:commandButton action="{!save}" value="Save" /> -->
-                <apex:commandButton value="Test" action="{!getListOfConditions}" rerender="out" status="status"/>
+                <apex:commandButton value="Book Appointment" action="{!getListOfConditions}"/>
             </apex:pageBlockButtons>
         </apex:pageBlock>
     </apex:form>
-    <apex:outputPanel id="out">
-        <apex:actionstatus id="status" startText="testing...">
-            <apex:facet name="stop">
-                <apex:outputPanel>
-                    <p>possibleConditions:</p>
-                    <apex:dataList value="{!possibleConditions}" var="c">{!c.name}</apex:dataList>
-                    <!-- <apex:repeat value="{!possibleConditions}" var="pc">
-                        <tr>
-                            <td>
-                                <apex:outputText value="{!pc.getName()}" /> </td>
-                            <td>
-                                <apex:outputText value="{!pc.getProbability()}" /> </td>
-                            <br></br>
-                        </tr>
-                    </apex:repeat> -->
-                </apex:outputPanel>
-            </apex:facet>
-        </apex:actionstatus>
-    </apex:outputPanel>
 </apex:page>
